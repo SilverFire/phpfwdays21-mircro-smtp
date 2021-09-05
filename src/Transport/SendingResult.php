@@ -18,6 +18,11 @@ final class SendingResult
     public Message $message;
     /**
      * @psalm-readonly-allow-private-mutation
+     * @example
+     * [
+     *     'test@gmail.com' => ['mx1.gmail.com', self::RESULT_PERMANENT_FAIL, 'The recipient does not exist'],
+     *     'test2@gmail.com' => ['mx2.gmail.com', self::RESULT_SUCCESS, null],
+     * ]
      */
     public array $perEmail = [];
 
