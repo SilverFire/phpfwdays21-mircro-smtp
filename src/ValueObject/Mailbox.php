@@ -10,13 +10,13 @@ use JetBrains\PhpStorm\Pure;
 final class Mailbox
 {
     public function __construct(
-        private string $name,
+        private ?string $name,
         private Email $email
     ) {
     }
 
     #[Pure]
-    public function name(): string
+    public function name(): ?string
     {
         return $this->name;
     }
@@ -31,5 +31,10 @@ final class Mailbox
     public function __toString(): string
     {
         return sprintf('%s <%s>', $this->name, $this->email->address());
+    }
+
+    public static function fromAddress(string $address): self
+    {
+        return new self(null, new Email($address));
     }
 }

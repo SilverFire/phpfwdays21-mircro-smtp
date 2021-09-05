@@ -18,4 +18,11 @@ class MailboxTest extends TestCase
         $this->assertSame($name, $mailbox->name());
         $this->assertSame($email, $mailbox->email());
     }
+
+    public function testCreationWithNamedConstructor(): void
+    {
+        $mailbox = Mailbox::fromAddress('my@silverfire.me');
+        $this->assertNull($mailbox->name());
+        $this->assertSame('my@silverfire.me', $mailbox->email()->address());
+    }
 }
