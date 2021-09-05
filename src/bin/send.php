@@ -21,7 +21,10 @@ include __DIR__ . '/../../vendor/autoload.php';
 
     $result = $transport->send($message);
 
-    var_dump($result);
+    echo "Delivery result: \n";
+    foreach ($result->perEmail as $email => $result) {
+        printf("[%s] – processed by \"%s\", result: %s (%s)\n", $email, $result[0], $result[1], $result[2] ?? 'OK');
+    }
 })($argv);
 
 
