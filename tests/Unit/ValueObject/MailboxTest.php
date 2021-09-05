@@ -25,4 +25,25 @@ class MailboxTest extends TestCase
         $this->assertNull($mailbox->name());
         $this->assertSame('my@silverfire.me', $mailbox->email()->address());
     }
+
+    /**
+     * @param Mailbox $mailbox
+     * @param string $expectedValue
+     *
+     * @dataProvider castToStringDataProvider
+     */
+    public function testCastingToString(Mailbox $mailbox, string $expectedValue)
+    {
+        $this->assertSame($expectedValue, $mailbox->__toString());
+    }
+
+    public function castToStringDataProvider()
+    {
+        return [
+            [Mailbox::fromAddress('test@silverfire.me'), 'test@silverfire.me'],
+            [new Mailbox(null, new Email('test@silverfire.me')), 'test@silverfire.me'],
+            [new Mailbox('', new Email('test@silverfire.me')), 'test@silverfire.me'],
+            [new Mailbox('Test Name', new Email('test@silverfire.me')), 'Test Name <test@silverfire.me>'],
+        ];
+    }
 }

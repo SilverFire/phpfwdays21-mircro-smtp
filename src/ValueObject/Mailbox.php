@@ -30,9 +30,14 @@ final class Mailbox
     #[Pure]
     public function __toString(): string
     {
-        return sprintf('%s <%s>', $this->name, $this->email->address());
+        if (!empty($this->name)) {
+            return sprintf('%s <%s>', $this->name, $this->email->address());
+        }
+
+        return $this->email()->address();
     }
 
+    #[Pure]
     public static function fromAddress(string $address): self
     {
         return new self(null, new Email($address));

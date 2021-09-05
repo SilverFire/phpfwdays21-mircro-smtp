@@ -39,6 +39,10 @@ class MessageTest extends TestCase
         $message = $message->withTextBody($text);
         $this->assertSame($text, $message->getTextBody());
 
+        $subject = 'subj123';
+        $message = $message->withSubject($subject);
+        $this->assertSame($subject, $message->getSubject());
+
         $message = $message->withAddedHeader('Test', 'Pass');
         $message = $message->withAddedHeader('Test2', 'Pass2');
         $message = $message->withAddedHeader('Test2', 'Pass2');

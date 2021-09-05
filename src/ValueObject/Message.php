@@ -7,8 +7,7 @@ use JetBrains\PhpStorm\Pure;
 
 class Message
 {
-
-    private ?Mailbox $from;
+    private ?Mailbox $from = null;
     /**
      * @var array<Mailbox>
      */
@@ -22,12 +21,13 @@ class Message
      */
     private array $bcc = [];
 
-    private ?string $textBody;
-    private ?string $htmlBody;
+    private ?string $textBody = null;
+    private ?string $htmlBody = null;
     /**
      * @var array<string, string>
      */
     protected array $headers = [];
+    private ?string $subject = null;
 
     /**
      * @return Mailbox|null
@@ -136,12 +136,25 @@ class Message
         return $self;
     }
 
+    public function withSubject(string $subject): self
+    {
+        $self = clone $this;
+        $self->subject = $subject;
+
+        return $self;
+    }
+
     /**
      * @return string[]
      */
     public function getHeaders(): array
     {
         return $this->headers;
+    }
+
+    public function getSubject(): ?string
+    {
+        return $this->subject;
     }
 
     // TODO: Implement attachments
