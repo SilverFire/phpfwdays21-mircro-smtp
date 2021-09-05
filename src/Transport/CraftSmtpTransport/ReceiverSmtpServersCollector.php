@@ -26,11 +26,7 @@ class ReceiverSmtpServersCollector
      */
     public function collect(Message $message): array
     {
-        $mailboxes = [
-            ...$message->getTo(),
-            ...$message->getCc(),
-            ...$message->getBcc()
-        ];
+        $mailboxes = $message->getRecipients();
 
         $servers = [];
         $hosts = array_unique(array_map(fn(Mailbox $mailbox) => $mailbox->email()->host(), $mailboxes));

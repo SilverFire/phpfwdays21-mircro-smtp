@@ -7,6 +7,9 @@ use MicroMailer\ValueObject\Message;
 
 interface TransportInterface
 {
+    /**
+     * @throws ConnectionFailedException
+     */
     public function connect(): void;
 
     public function disconnect(): void;
@@ -16,8 +19,8 @@ interface TransportInterface
     public function send(Message $message): SendingResult;
 
     /**
-     * @param Message ...$message
+     * @param Message ...$messages
      * @return SendingResult[]
      */
-    public function sendBatch(Message ...$message): array;
+    public function sendBatch(Message ...$messages): array;
 }

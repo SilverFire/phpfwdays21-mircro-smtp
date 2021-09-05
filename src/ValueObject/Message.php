@@ -61,6 +61,14 @@ class Message
         return $this->bcc;
     }
 
+    /**
+     * @return Mailbox[]
+     */
+    public function getRecipients(): array
+    {
+        return [...$this->getTo(), ...$this->getCc(), ...$this->getBcc()];
+    }
+
     #[Pure]
     public function withFrom(Mailbox $from): self
     {
