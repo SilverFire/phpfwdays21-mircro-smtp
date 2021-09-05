@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace MicroMailer\tests\Unit\Transport;
 
 use MicroMailer\Exception\Exception;
+use MicroMailer\Transport\SendingResult;
 use MicroMailer\ValueObject\Email;
 use MicroMailer\ValueObject\Message;
 use PHPUnit\Framework\TestCase;

@@ -87,8 +87,8 @@ MESSAGE
                 ->withTextBody('Тут ещё есть 😘 '),
             <<<MESSAGE
 Date: {$this->date}
-Subject: Это тестовое сообщение
-From: Дмитрий Науменко <my@silverfire.me>
+Subject: =?UTF-8?B?0K3RgtC+INGC0LXRgdGC0L7QstC+0LUg0YHQvtC+0LHRidC10L3QuNC1?=
+From: =?UTF-8?B?0JTQvNC40YLRgNC40Lkg0J3QsNGD0LzQtdC90LrQvg==?= <my@silverfire.me>
 To: test@silverfire.me
 Content-Type: multipart/alternative; boundary="alt-c3bc5928dfd6197a760d660f48b68d34a118f8bf333ab7aeb85954beb996b5b3"
 
