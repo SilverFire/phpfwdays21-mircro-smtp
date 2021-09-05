@@ -15,21 +15,22 @@ class EmailTest extends TestCase
      * @dataProvider validAddressDataProvider
      * @covers \MicroMailer\ValueObject\Email
      */
-    public function testValid(string $address, string $expected = null): void
+    public function testValid(string $address, string $expectedHost, string $expectedAddress = null): void
     {
-        $expected ??= $address;
+        $expectedAddress ??= $address;
 
         $email = new Email($address);
-        $this->assertSame($expected, $email->address());
-        $this->assertSame($expected, $email->__toString());
+        $this->assertSame($expectedAddress, $email->address());
+        $this->assertSame($expectedAddress, $email->__toString());
+        $this->assertSame($expectedHost, $email->host());
     }
 
     public function validAddressDataProvider(): array
     {
         return [
-            ['test@example.com'],
-            ['test+1238fna@example.com'],
-            ['пошта@емайл.укр', 'xn--80a1acn3a@xn--80ajnic.xn--j1amh']
+            ['test@example.com', 'example.com'],
+            ['test+1238fna@example.com', 'example.com'],
+            ['пошта@емайл.укр', 'xn--80ajnic.xn--j1amh', 'xn--80a1acn3a@xn--80ajnic.xn--j1amh'],
         ];
     }
     /**
@@ -38,7 +39,7 @@ class EmailTest extends TestCase
      * @dataProvider invalidAddressDataProvider
      * @covers \MicroMailer\ValueObject\Email
      */
-    public function testInalid(string $address): void
+    public function testInvalid(string $address): void
     {
         $this->expectException(WrongEmailAddressException::class);
         $this->expectExceptionMessage("Email address \"$address\" is not valid");

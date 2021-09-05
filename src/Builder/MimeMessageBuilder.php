@@ -6,7 +6,7 @@ namespace MicroMailer\Builder;
 use JetBrains\PhpStorm\Pure;
 use MicroMailer\ValueObject\Message;
 
-class Builder implements BuilderInterface
+class MimeMessageBuilder implements BuilderInterface
 {
     private const CRLF = "\r\n";
     protected const CHARSET_UTF8 = 'utf8';

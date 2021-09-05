@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace MicroMailer\tests\Unit\Builder;
 
-use MicroMailer\Builder\Builder;
+use MicroMailer\Builder\MimeMessageBuilder;
 use MicroMailer\ValueObject\Email;
 use MicroMailer\ValueObject\Mailbox;
 use MicroMailer\ValueObject\Message;
 use PHPUnit\Framework\TestCase;
 
-class BuilderTest extends TestCase
+class MimeBuilderTest extends TestCase
 {
     private string $date = 'Sun, 05 Sep 2021 09:11:18 +0000';
     private string $boundaryId = 'c3bc5928dfd6197a760d660f48b68d34a118f8bf333ab7aeb85954beb996b5b3';
@@ -22,7 +22,7 @@ class BuilderTest extends TestCase
      */
     public function testBuilding(Message $message, string $expectedBody): void
     {
-        $mock = $this->getMockBuilder(Builder::class)
+        $mock = $this->getMockBuilder(MimeMessageBuilder::class)
             ->onlyMethods(['getCurrentISODate', 'generateRandomBoundaryId'])
             ->getMock();
         $mock->method('getCurrentISODate')->willReturn($this->date);

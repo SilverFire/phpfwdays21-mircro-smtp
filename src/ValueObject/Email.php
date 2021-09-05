@@ -46,4 +46,12 @@ class Email
             . '@' .
             idn_to_ascii($right, IDNA_NONTRANSITIONAL_TO_ASCII,INTL_IDNA_VARIANT_UTS46);
     }
+
+    #[Pure]
+    public function host(): string
+    {
+        [, $host] = explode('@', $this->address, 2);
+
+        return $host;
+    }
 }
