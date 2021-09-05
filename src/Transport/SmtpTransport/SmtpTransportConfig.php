@@ -13,7 +13,7 @@ class SmtpTransportConfig
 
     private ?string $domain = null;
 
-    private int $connectionTimeoutSeconds = 2;
+    private int $connectionTimeoutSeconds = 10;
 
     #[Pure]
     public function withHost(string $host): self

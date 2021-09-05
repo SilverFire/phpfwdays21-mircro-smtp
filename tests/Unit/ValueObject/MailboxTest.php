@@ -26,6 +26,23 @@ class MailboxTest extends TestCase
         $this->assertSame('my@silverfire.me', $mailbox->email()->address());
     }
 
+    public function fromStringDataProvider(): array
+    {
+        return [
+            ['Dmytro Naumenko <test@silverfire.me>'],
+            ['test@silverfire.me']
+        ];
+    }
+
+    /**
+     * @dataProvider fromStringDataProvider
+     */
+    public function testFromString(string $address): void
+    {
+        $mailbox = Mailbox::fromString($address);
+        $this->assertSame($address, $mailbox->__toString());
+    }
+
     /**
      * @param Mailbox $mailbox
      * @param string $expectedValue
@@ -46,4 +63,5 @@ class MailboxTest extends TestCase
             [new Mailbox('Test Name', new Email('test@silverfire.me')), 'Test Name <test@silverfire.me>'],
         ];
     }
+
 }

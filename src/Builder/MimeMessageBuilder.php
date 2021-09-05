@@ -52,8 +52,8 @@ class MimeMessageBuilder implements BuilderInterface
     {
         $headers = [];
         $headers['Date'] = $this->getCurrentISODate();
-        $headers['Subject'] = $this->sanitizeHeader($message->getSubject());
-        $headers['From'] = $message->getFrom();
+        $headers['Subject'] = mb_encode_mimeheader($message->getSubject(), 'UTF-8', 'B');
+        $headers['From'] = $message->getFrom()->mimeEncoded();
         $headers['To'] = implode(', ', $message->getTo());
         if ($message->getCc() !== []) {
             $headers['Cc'] = implode(', ', $message->getCc());

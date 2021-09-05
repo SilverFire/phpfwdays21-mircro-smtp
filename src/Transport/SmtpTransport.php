@@ -11,6 +11,8 @@ class SmtpTransport implements TransportInterface
 {
     private const CRLF = "\r\n";
 
+    private int $readTimeoutSeconds = 1;
+
     /**
      * @var resource
      */
@@ -36,7 +38,7 @@ class SmtpTransport implements TransportInterface
             $this->config->getConnectionTimeoutSeconds(),
         );
 
-        if ($socket === false || $errorMessage !== 0) {
+        if ($socket === false || $errorNumber !== 0) {
             throw ConnectionFailedException::fromErrorString($this->config->getHost(), $errorMessage);
         }
 
@@ -54,7 +56,7 @@ class SmtpTransport implements TransportInterface
             $this->sendCommand('QUIT');
             fclose($this->socket);
         } finally {
-            unset($this->socket);
+            $this->socket = null;
         }
     }
 
@@ -74,9 +76,9 @@ class SmtpTransport implements TransportInterface
         }
 
         $this->sendCommand('DATA');
-        $this->sendCommand($this->messageBuilder->build($message) . self::CRLF . '.');
 
-        $result->log($this->config->getHost(), SendingResult::RESULT_SUCCESS);
+        $response = $this->sendCommand($this->messageBuilder->build($message) . self::CRLF . '.');
+        $this->handleResponseCode($response, $result);
 
         return $result;
     }
@@ -89,14 +91,10 @@ class SmtpTransport implements TransportInterface
     protected function getResponse(): string
     {
         $string = '';
-        stream_set_timeout($this->socket, $this->config->getConnectionTimeoutSeconds());
 
+        stream_set_timeout($this->socket, $this->readTimeoutSeconds);
         while (($line = fgets($this->socket, 515)) !== false) {
             $string .= trim($line) . "\n";
-
-            if ($line[3] === ' ') {
-                break;
-            }
         }
 
         return trim($string);
@@ -112,5 +110,18 @@ class SmtpTransport implements TransportInterface
     public function __destruct()
     {
         $this->disconnect();
+    }
+
+    private function handleResponseCode(string $response, SendingResult $result): void
+    {
+        $code = (int)substr($response, 0, 3);
+
+        if ($code >= 500) {
+            $result->log($this->config->getHost(), SendingResult::RESULT_PERMANENT_FAIL, $response);
+        } elseif ($code >= 400) {
+            $result->log($this->config->getHost(), SendingResult::RESULT_TEMP_FAIL, $response);
+        } elseif ($code >= 200) {
+            $result->log($this->config->getHost(), SendingResult::RESULT_SUCCESS);
+        }
     }
 }

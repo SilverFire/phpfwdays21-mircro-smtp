@@ -7,6 +7,6 @@ class ConnectionFailedException extends TransportException
 {
     public static function fromErrorString(string $server, string $error): self
     {
-        return new self('Failed to establish connection with "%s": %s', $server, $error);
+        return new self(sprintf('Failed to establish connection with "%s": %s', $server, $error));
     }
 }

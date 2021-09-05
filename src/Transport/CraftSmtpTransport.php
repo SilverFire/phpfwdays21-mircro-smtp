@@ -24,7 +24,7 @@ class CraftSmtpTransport implements TransportInterface
     {
         foreach ($this->_transports as $key => $transport) {
             $transport->disconnect();
-            unset($transport[$key]);
+            unset($this->_transports[$key]);
         }
     }
 
