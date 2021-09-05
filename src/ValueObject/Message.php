@@ -9,15 +9,15 @@ class Message
 {
     private ?Mailbox $from = null;
     /**
-     * @var array<Mailbox>
+     * @var list<Mailbox>
      */
     private array $to = [];
     /**
-     * @var array<Mailbox>
+     * @var list<Mailbox>
      */
     private array $cc = [];
     /**
-     * @var array<Mailbox>
+     * @var list<Mailbox>
      */
     private array $bcc = [];
 
@@ -38,7 +38,7 @@ class Message
     }
 
     /**
-     * @return Mailbox[]
+     * @return list<Mailbox>
      */
     public function getTo(): array
     {
@@ -46,7 +46,7 @@ class Message
     }
 
     /**
-     * @return Mailbox[]
+     * @return list<Mailbox>
      */
     public function getCc(): array
     {
@@ -54,7 +54,7 @@ class Message
     }
 
     /**
-     * @return Mailbox[]
+     * @return list<Mailbox>
      */
     public function getBcc(): array
     {
@@ -62,8 +62,9 @@ class Message
     }
 
     /**
-     * @return Mailbox[]
+     * @return list<Mailbox>
      */
+    #[Pure]
     public function getRecipients(): array
     {
         return [...$this->getTo(), ...$this->getCc(), ...$this->getBcc()];
