@@ -1,4 +1,19 @@
+# What is it
+
+This repository is a solution of a PHP fwdays 2021 [challenge by sendios (Genesis)](https://php_fwdays21_prize.tilda.ws/).
+
+**It is tested to:**
+- Send Plaintext and HTML messages;
+- Support UTF-8 🔥, To, Cc, Bcc;
+- Deliver messages to Gmail, Yahoo, Hotmail with a properly prepared server;
+- Reuse active connections for batch email dispatching;
+- Fallback to a reserve MX servers, when the first does not work;
+- When a single email has many To, Cc, Bcc and they belong to different mail domains – the library makes
+sure to deliver message to all the recipients.
+
 # Installation
+
+Make sure you have PHP 8.0.
 
 ```bash
 git clone git@github.com:SilverFire/phpfwdays21-mircro-smtp.git
@@ -22,6 +37,11 @@ The repository has a lot of unit tests:
 Delivery result: 
 [test-7oh2gdzlt@srv1.mail-tester.com] – processed by "reception.mail-tester.com", result: 0 (OK)
 ```
+
+Make sure that you are:
+- sending an email from a warmed up IP address
+- IP address you are using is not in Blacklists 
+- The SPF records are configured accrdingly
 
 # Send a batch of emails
 
