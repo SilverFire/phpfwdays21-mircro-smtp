@@ -18,7 +18,7 @@
   "autoload": {
     "psr-4": {
       "MicroMailer\\": "src",
-      "MicroMailer\\tests": "tests"
+      "MicroMailer\\tests\\": "tests"
     }
   }
 }
