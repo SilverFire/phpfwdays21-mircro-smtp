@@ -11,8 +11,6 @@ class SmtpTransport implements TransportInterface
 {
     private const CRLF = "\r\n";
 
-    private int $readTimeoutSeconds = 1;
-
     /**
      * @var resource
      */
@@ -43,6 +41,7 @@ class SmtpTransport implements TransportInterface
         }
 
         $this->socket = $socket;
+        $this->getResponse(); // Wait for connection to be established
         $this->sendCommand('EHLO ' . $this->config->getDomain());
     }
 
@@ -92,9 +91,12 @@ class SmtpTransport implements TransportInterface
     {
         $string = '';
 
-        stream_set_timeout($this->socket, $this->readTimeoutSeconds);
+        stream_set_timeout($this->socket, $this->config->getConnectionTimeoutSeconds());
         while (($line = fgets($this->socket, 515)) !== false) {
             $string .= trim($line) . "\n";
+            if ($line[3] === ' ') {
+                break;
+            }
         }
 
         return trim($string);
