@@ -1,0 +1,24 @@
+{
+  "type": "library",
+  "name": "silverfire/micro-mailer",
+  "authors": [
+    {
+      "name": "Dmytro Naumenko",
+      "email": "d.naumenko.a@gmail.com"
+    }
+  ],
+  "license": "BSD-3-Clause",
+  "require": {
+    "php": ">7.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5.9",
+    "vimeo/psalm": "^4.10.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "MicroMailer\\": "src",
+      "MicroMailer\\tests": "tests"
+    }
+  }
+}
