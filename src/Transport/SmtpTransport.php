@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace MicroMailer\Transport;
 
-use MicroMailer\Builder\MimeMessageBuilder;
 use MicroMailer\Transport\SmtpTransport\SmtpTransportConfig;
 use MicroMailer\ValueObject\Message;
 
@@ -12,13 +11,12 @@ class SmtpTransport implements TransportInterface
     private const CRLF = "\r\n";
 
     /**
-     * @var resource
+     * @var resource|null
      */
     protected $socket;
 
     public function __construct(
         private SmtpTransportConfig $config,
-        private MimeMessageBuilder $messageBuilder
     ) {
     }
 
@@ -76,7 +74,7 @@ class SmtpTransport implements TransportInterface
 
         $this->sendCommand('DATA');
 
-        $response = $this->sendCommand($this->messageBuilder->build($message) . self::CRLF . '.');
+        $response = $this->sendCommand($message->build() . self::CRLF . self::CRLF . '.');
         $this->handleResponseCode($response, $result);
 
         return $result;

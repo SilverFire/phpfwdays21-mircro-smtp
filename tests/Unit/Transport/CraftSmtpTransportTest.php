@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace MicroMailer\tests\Unit\Transport;
 
-use MicroMailer\Builder\MimeMessageBuilder;
 use MicroMailer\Transport\CraftSmtpTransport;
 use MicroMailer\Transport\CraftSmtpTransport\ReceiverSmtpServersCollector;
 use MicroMailer\Transport\SendingResult;
-use MicroMailer\Transport\SmtpTransport;
 use MicroMailer\ValueObject\Email;
 use MicroMailer\ValueObject\Mailbox;
 use MicroMailer\ValueObject\Message;
@@ -21,7 +19,7 @@ class CraftSmtpTransportTest extends TestCase
     public function testDelivery()
     {
         $transport = $this->getMockBuilder(CraftSmtpTransport::class)
-            ->setConstructorArgs([new MimeMessageBuilder(), new ReceiverSmtpServersCollector()])
+            ->setConstructorArgs([new ReceiverSmtpServersCollector()])
             ->onlyMethods(['transport'])
             ->getMock();
 

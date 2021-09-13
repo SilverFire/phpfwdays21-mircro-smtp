@@ -10,7 +10,8 @@
   "license": "BSD-3-Clause",
   "require": {
     "php": ">7.4",
-    "ext-intl": "*"
+    "ext-intl": "*",
+    "ext-openssl": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5.9",

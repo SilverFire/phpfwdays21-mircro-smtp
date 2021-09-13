@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace MicroMailer\Transport;
 
-use MicroMailer\Builder\MimeMessageBuilder;
 use MicroMailer\Transport\CraftSmtpTransport\ReceiverSmtpServersCollector;
 use MicroMailer\Transport\SmtpTransport\SmtpTransportConfig;
 use MicroMailer\ValueObject\Message;
@@ -11,7 +10,6 @@ use MicroMailer\ValueObject\Message;
 class CraftSmtpTransport implements TransportInterface
 {
     public function __construct(
-        private MimeMessageBuilder $messageBuilder,
         private ReceiverSmtpServersCollector $smtpServersCollector,
     ) {
     }
@@ -54,6 +52,12 @@ class CraftSmtpTransport implements TransportInterface
         return $result;
     }
 
+    /**
+     * @param Message $message
+     * @param string $domain
+     * @param string[] $hosts
+     * @return SendingResult
+     */
     private function sendViaOneOfHosts(Message $message, string $domain, array $hosts): SendingResult
     {
         foreach ($hosts as $host) {
@@ -71,14 +75,13 @@ class CraftSmtpTransport implements TransportInterface
 
     /** @var SmtpTransport[] */
     private array $_transports = [];
-    protected function transport(string $domain, string $host)
+    protected function transport(string $domain, string $host): TransportInterface
     {
         if (!isset($this->_transports[$domain])) {
             $this->_transports[$domain] = new SmtpTransport(
                 (new SmtpTransportConfig())
                     ->withHost($host)
-                    ->withDomain($domain),
-                $this->messageBuilder
+                    ->withDomain($domain)
             );
         }
 

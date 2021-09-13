@@ -9,7 +9,6 @@ include __DIR__ . '/../../vendor/autoload.php';
     }
 
     $transport = new MicroMailer\Transport\CraftSmtpTransport(
-        new \MicroMailer\Builder\MimeMessageBuilder(),
         new \MicroMailer\Transport\CraftSmtpTransport\ReceiverSmtpServersCollector(),
     );
 

@@ -43,6 +43,21 @@ Make sure that you are:
 - IP address you are using is not in Blacklists 
 - The SPF records are configured accrdingly
 
+# Sending a DKIM-signed test email
+
+```bash
+> #                        ⬇ DKIM private key ⬇ DKIM domain         ⬇ DKIM selector
+> ./src/bin/sendSigned.php tests/data/dkim.key testdkim.silverfire.me silverfire \
+                           from@email.com to@email.com "Test subject" "Test Body"
+> #                        ⬆ from        ⬆ to         ⬆ subject      ⬆ text body
+
+Delivery result: 
+[to@email.com] – processed by "reception.mail-tester.com", result: 0 (OK)
+```
+
+Prepare a test DKIM private key, to be passed in a first argument.
+Make sure the domain you are sending is configured properly for DKIM.
+
 # Send a batch of emails
 
 Use this repository as a library and try the following code:
@@ -66,8 +81,7 @@ $messages = [
 
 // Create a transport
 $transport = new MicroMailer\Transport\CraftSmtpTransport(
-    new \MicroMailer\Builder\MimeMessageBuilder(),
-    new \MicroMailer\Transport\CraftSmtpTransport\ReceiverSmtpServersCollector(),
+    new \MicroMailer\Transport\CraftSmtpTransport\ReceiverSmtpServersCollector()
 );
 
 $result = $transport->sendBatch(...$messages);

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace MicroMailer\tests\Unit\Transport;
 
-use MicroMailer\Builder\MimeMessageBuilder;
 use MicroMailer\Transport\SmtpTransport;
 use MicroMailer\ValueObject\Email;
 use MicroMailer\ValueObject\Mailbox;
@@ -22,7 +21,7 @@ class SmtpTransportTest extends TestCase
             ->withDomain('silverfire.me');
 
         $smtp = $this->getMockBuilder(SmtpTransport::class)
-            ->setConstructorArgs([$config, new MimeMessageBuilder()])
+            ->setConstructorArgs([$config])
             ->onlyMethods(['sendCommand', 'connect'])
             ->getMock();
 
@@ -42,7 +41,7 @@ class SmtpTransportTest extends TestCase
             ->withSubject('Это тестовое сообщение')
             ->withTextBody('Тут ещё есть');
 
-        $result = $smtp->send($message);
+        $smtp->send($message);
 
         $this->assertSame([
             0 => 'MAIL FROM: <my@silverfire.me>',
